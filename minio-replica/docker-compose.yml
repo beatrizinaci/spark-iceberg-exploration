@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  minio-replica:
+    image: minio/minio:latest
+    container_name: minio-replica
+    ports:
+      - "9002:9000"
+      - "9003:9001"
+    command: server --console-address ":9001" /data
+    env_file:
+      - .env
+    volumes:
+      - ../volumes/minio-principal-data:/data
+    networks:
+      iceberg_net:
+        aliases:
+          - lakehouse.minio-replica
+
+volumes:
+  minio-replica-data:
+
+
+networks:
+  iceberg_net:
+    external: true

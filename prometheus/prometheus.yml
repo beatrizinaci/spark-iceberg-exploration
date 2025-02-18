@@ -1,0 +1,48 @@
+global:
+  scrape_interval: 10s
+  evaluation_interval: 10s
+rule_files:
+  - rules.yml
+alerting:
+  alertmanagers:
+   - static_configs:
+     - targets:
+        - alert-manager:9093
+scrape_configs:
+ - job_name: prometheus
+   static_configs:
+    - targets:
+       - prometheus:9090
+ - job_name: node
+   static_configs:
+    - targets:
+       - node-exporter:9100
+
+ - job_name: minio-principal-job
+   bearer_token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwcm9tZXRoZXVzIiwic3ViIjoidXNlciIsImV4cCI6NDg5MzEwMDAyNn0._C41y1lnm7uMmIdWw3tyX7MNhvTNTjrGCvgdVWfvEHadn8drnWnYez_-ZPngJJM3fLxIq3qqeNCoI3acN5tH4g
+   metrics_path: /minio/metrics/v3
+   scheme: http
+   static_configs:
+    - targets: ['minio-principal:9000']
+
+ - job_name: minio-replica-job
+   bearer_token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwcm9tZXRoZXVzIiwic3ViIjoiYWRtaW4iLCJleHAiOjQ4OTMzNDIyODh9.15qudSBDAqeoK2BRgYPHSQVu1MYfCdpc2yby75f325JkZS4gGUyK6qHtE_WNkBMFhvgo4O3I-r8CJ6OxysPQYg
+   metrics_path: /minio/metrics/v3
+   scheme: http
+   static_configs:
+    - targets: ['minio-replica:9000']
+
+
+ - job_name: minio-principal-job-v2
+   bearer_token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwcm9tZXRoZXVzIiwic3ViIjoidXNlciIsImV4cCI6NDg5MzEwMDAyNn0._C41y1lnm7uMmIdWw3tyX7MNhvTNTjrGCvgdVWfvEHadn8drnWnYez_-ZPngJJM3fLxIq3qqeNCoI3acN5tH4g
+   metrics_path: /minio/v2/metrics
+   scheme: http
+   static_configs:
+    - targets: ['minio-principal:9000']
+
+ - job_name: minio2-replica-job-v2
+   bearer_token: eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJwcm9tZXRoZXVzIiwic3ViIjoiYWRtaW4iLCJleHAiOjQ4OTMzNDIyODh9.15qudSBDAqeoK2BRgYPHSQVu1MYfCdpc2yby75f325JkZS4gGUyK6qHtE_WNkBMFhvgo4O3I-r8CJ6OxysPQYg
+   metrics_path: /minio/v2/metrics/
+   scheme: http
+   static_configs:
+    - targets: ['minio-replica:9000']

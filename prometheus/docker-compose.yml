@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+      - "./rules.yml:/etc/prometheus/rules.yml"
+    networks:
+      - iceberg_net
+    ports:
+      - 9090:9090
+
+  node-exporter:
+    image: prom/node-exporter
+    networks:
+      - iceberg_net
+    ports:
+      - 9100:9100
+
+  alert-manager:
+    image: prom/alertmanager
+    volumes:
+      - "./alertmanager.yml:/alertmanager/alertmanager.yml"
+    networks:
+      - iceberg_net
+    ports:
+      - 9093:9093
+
+networks:
+  iceberg_net:
+    external: true
